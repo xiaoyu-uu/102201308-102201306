@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="auto" content='homo'>
+	<meta charset="UTF-8">
+	<title>KuKu福首页</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="base.css">
+	<style>
+        
+        #headline{
+            width: 100%;
+            /*这个最小宽度是，当缩小浏览器小于1263px时，能保持结构的完整性*/
+            min-width: 1263px;
+            height:300px;
+            /*背景图，不重复，始终保持图片居中*/
+            /*首先，为了满足最小的1280分辨率，大图本身宽度必须大于1280，为主流分辨率一般小于1920
+            ，所以图片宽度为1920可以满足所有用户*/
+            background:url(../image/border6.jpg) no-repeat center;
+        }
+        
+        #headline .center{
+            width: 1263px;
+            height: 300px;
+            margin:0 auto;
+        }
+        #headline hgroup{
+            padding: 100px 0 0 50px;
+            color:#fff;
+        }
+        #headline h2{
+            font-size: 36px;
+            letter-spacing: 1px;
+        }
+        #headline h3{
+            font-size: 20px;
+        }
+        #containter{
+            width: 1263px;
+            height: 1200px;
+            margin:30px auto;
+        }
+        #containter .sidebar{
+            width:340px;
+            float: right;
+        }
+        #containter .list{
+            width: 900px;
+            height: 1200px;
+            float: left;
+        }
+        
+  
+        /*list区*/
+        #containter .infor{
+            background-color: #eee;
+            height: 45px;
+        }
+        #containter ul{
+            list-style: none;
+        
+        }
+        #containter a{
+            text-decoration: none;
+        }
+        #containter .left{
+            display: inline-block;
+            float: left;
+        }
+
+        #containter .left li{
+            display: inline-block;
+            width: 150px;
+            height: 43px;
+            line-height: 43px;
+            text-align: center;
+            color:#666;
+        }
+        #containter .left li a{
+            display: block;
+            color:#666;
+        }
+        #containter .left li:first-child:hover{
+            background-color: #fff;
+            border-top:2px solid #458b00 ;
+            position: relative;
+            left: 1px;
+        
+        }
+        #containter .left li:last-child{
+            background-color: #fff;
+            border-top:2px solid #458b00 ;
+            position: relative;
+            left: 1px;
+        
+        }
+        /* 发帖区 */
+        #post-form {
+            margin: 20px;
+        }
+        #post-form label {
+            display: block;
+            margin: 20px 0 5px;
+            font-weight: bold;
+        }
+        #post-form input,
+        #post-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #post-form button {
+            background-color: #458b00;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #post-form button:hover {
+            background-color: #366b00;
+        }
+
+        #post-list {
+            margin-top: 20px;
+        }
+        .content {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .content h2, .content h3 {
+            margin: 0;
+        }
+        .content footer {
+            font-size: 0.9em;
+            color: #999;
+        }
+       </style>
+</head>
+<body>
+	<header id='header'>
+		<div class='center'>
+			<h1 class="logo">KuKu福</h1>
+			<nav style='overflow:hidden;'>
+				<h2 class="none">网站导航</h2>
+			<ul class="link">
+					<li class="active"><a href="#">首页</a></li>
+					<li><a href="information.html" >觅友</a></li>
+					<li><a href="buy.html">Ku友圈</a></li>
+					<li><a href="scenery.html">我的</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+<div class = img></div>
+	<div id="containter">
+		<div class="list">
+			<div class="infor">	
+			<ul class="left">
+				<li><a href='index.html'>推荐团队</a></li>
+				<li><h href='publish.html'>发布团队</h></li>
+                </ul>
+			</div>
+
+            <section id="post-form">
+                <h2>请填写你想发布的团队信息</h2>
+                <form id="form">
+                    <label for="team-name">团队名称</label>
+                    <input type="text" id="team-name" placeholder="请输入团队名称" required>
+                    
+                    <label for="project-name">项目名称</label>
+                    <input type="text" id="project-name" placeholder="请输入项目名称" required>
+                    
+                    <label for="team-requirements">团队需求</label>
+                    <textarea id="team-requirements" placeholder="请输入团队需求" rows="4" required></textarea>
+                    
+                    <button type="submit">发布</button>
+                </form>
+            </section>
+    
+            <div id="post-list">
+                <h2>帖子列表</h2>
+                <!-- 动态生成的帖子将插入到这里 -->
+            </div>
+        </div>
+    
+        <script>
+            document.getElementById('form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const teamName = document.getElementById('team-name').value;
+                const projectName = document.getElementById('project-name').value;
+                const teamRequirements = document.getElementById('team-requirements').value;
+                
+                const postList = document.getElementById('post-list');
+                const newPost = document.createElement('div');
+                newPost.classList.add('content');
+                newPost.innerHTML = `
+                    <hgroup>
+                        <h2>团队名称：${teamName}</h2>
+                        <h3>项目名称：${projectName}</h3>
+                    </hgroup>
+                    <div>
+                        <ul>
+                            <li>团队需求：${teamRequirements}</li>
+                        </ul>
+                    </div>
+                    <footer>
+                        截止时间 <time>2024-11-5</time>
+                    </footer>
+                `;
+                postList.appendChild(newPost);
+                
+                // 清空表单
+                document.getElementById('form').reset();
+            });
+        </script>
+</html>
